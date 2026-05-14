@@ -1,0 +1,704 @@
+<!-- Fun stuff. claude helped-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM Radiation & Atomic Structure — Study Guide</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple-50: #EEEDFE; --purple-200: #AFA9EC; --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489;
+    --teal-50: #E1F5EE; --teal-600: #0F6E56; --teal-800: #085041;
+    --coral-50: #FAECE7; --coral-600: #993C1D;
+    --amber-50: #FAEEDA; --amber-400: #EF9F27; --amber-600: #854F0B; --amber-800: #633806;
+    --blue-50: #E6F1FB; --blue-600: #185FA5;
+    --green-50: #EAF3DE; --green-600: #3B6D11;
+    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-400: #888780; --gray-700: #444441;
+    --red-50: #FCEBEB; --red-600: #A32D2D;
+    --bg: #fff; --bg2: #f8f8f6; --bg3: #f1efe8;
+    --text: #1a1a18; --text2: #5a5a58; --text3: #888780;
+    --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
+    --radius: 10px; --radius-sm: 6px;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --mono: 'Fira Mono', 'Cascadia Code', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a; --bg2: #242422; --bg3: #2c2c2a;
+      --text: #e8e8e4; --text2: #a8a8a4; --text3: #686866;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+      --purple-50: #26215C; --purple-200: #534AB7; --purple-400: #7F77DD; --purple-800: #CECBF6;
+      --teal-50: #04342C; --teal-600: #9FE1CB;
+      --coral-50: #4A1B0C; --coral-600: #F0997B;
+      --amber-50: #412402; --amber-800: #FAC775;
+      --blue-50: #042C53; --blue-600: #85B7EB;
+      --green-50: #173404; --green-600: #97C459;
+    }
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+  
+  .layout { display: flex; min-height: 100vh; }
+  
+  /* Sidebar */
+  .sidebar { width: 220px; background: var(--bg2); border-right: 0.5px solid var(--border); padding: 1.5rem 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+  .sidebar-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); padding: 0 1rem 0.75rem; }
+  .nav-item { display: block; padding: 8px 1rem; font-size: 13px; color: var(--text2); cursor: pointer; border: none; background: none; width: 100%; text-align: left; border-left: 2px solid transparent; transition: all 0.15s; text-decoration: none; }
+  .nav-item:hover { color: var(--text); background: var(--bg3); }
+  .nav-item.active { color: var(--purple-800); background: var(--purple-50); border-left-color: var(--purple-400); font-weight: 500; }
+  .nav-divider { height: 0.5px; background: var(--border); margin: 8px 0; }
+
+  /* Main */
+  .main { flex: 1; padding: 2rem; max-width: 760px; }
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .page-header p { font-size: 14px; color: var(--text2); }
+
+  /* Sections */
+  .section { display: none; }
+  .section.active { display: block; }
+  .section > h2 { font-size: 20px; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+
+  /* Cards */
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .card h3 { font-size: 15px; font-weight: 600; margin: 1rem 0 0.5rem; }
+  .card h3:first-child { margin-top: 0; }
+  .card p, .card li { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .card ul, .card ol { padding-left: 1.5rem; }
+  .card li { margin-bottom: 4px; }
+
+  /* Callouts */
+  .callout { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin: 10px 0; font-size: 13px; line-height: 1.7; }
+  .callout-purple { background: var(--purple-50); border-left: 3px solid var(--purple-400); color: var(--purple-800); }
+  .callout-amber { background: var(--amber-50); border-left: 3px solid var(--amber-400); color: var(--amber-800); }
+  .callout-green { background: var(--green-50); border-left: 3px solid #97C459; color: var(--green-600); }
+  .callout-red { background: var(--red-50); border-left: 3px solid #E24B4A; color: var(--red-600); }
+
+  /* Formula */
+  .formula { font-family: var(--mono); background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; margin: 8px 0; color: var(--text); display: block; }
+
+  /* Grid */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  @media (max-width: 600px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+
+  /* Mini card */
+  .mini-card { background: var(--bg2); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .mini-card .lbl { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .mini-card .val { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.5; }
+
+  /* Badge */
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.03em; }
+  .badge-purple { background: var(--purple-50); color: var(--purple-800); }
+  .badge-teal { background: var(--teal-50); color: var(--teal-600); }
+  .badge-coral { background: var(--coral-50); color: var(--coral-600); }
+  .badge-amber { background: var(--amber-50); color: var(--amber-600); }
+  .badge-blue { background: var(--blue-50); color: var(--blue-600); }
+  .badge-green { background: var(--green-50); color: var(--green-600); }
+
+  /* EM spectrum */
+  .em-spectrum { display: flex; border-radius: 8px; overflow: hidden; margin: 10px 0; }
+  .em-band { flex: 1; padding: 10px 4px; text-align: center; font-size: 11px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+  .em-band:hover { opacity: 0.8; filter: brightness(1.1); }
+  .em-band span { display: block; font-size: 9px; font-weight: 400; margin-top: 2px; opacity: 0.9; }
+  .em-tooltip { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 8px; font-size: 13px; color: var(--text2); min-height: 56px; line-height: 1.65; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; margin: 8px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--bg2); color: var(--text); font-weight: 600; padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(--border2); }
+  td { padding: 7px 10px; color: var(--text2); border-bottom: 0.5px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+
+  /* Scientist cards */
+  .scientist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+  @media (max-width: 600px) { .scientist-grid { grid-template-columns: 1fr; } }
+  .sci-card { border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px; }
+  .sci-card .sci-name { font-size: 14px; font-weight: 600; margin: 6px 0 4px; }
+  .sci-card .sci-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+  /* EC demo */
+  .ec-demo { font-family: var(--mono); background: var(--bg2); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; margin: 6px 0; color: var(--text); line-height: 1.9; border: 0.5px solid var(--border); }
+  .ec-comment { color: var(--text3); font-size: 11px; }
+
+  /* Ion example */
+  .ion-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
+  .ion-chip { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 14px; padding: 3px 10px; font-family: var(--mono); font-size: 12px; }
+  .arrow-lbl { font-size: 12px; color: var(--text3); }
+
+  /* Trend grid */
+  .trend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+  @media (max-width: 500px) { .trend-grid { grid-template-columns: 1fr; } }
+  .trend-box { border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .trend-box .t-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .trend-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* Calculator */
+  .calc-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
+  .calc-row label { font-size: 13px; color: var(--text2); white-space: nowrap; }
+  .calc-row input[type=range] { flex: 1; min-width: 120px; accent-color: var(--purple-400); }
+  .calc-row .val-out { font-size: 13px; font-weight: 600; min-width: 68px; color: var(--text); }
+
+  /* Summary table (colored) */
+  .sum-table-wrap { background: var(--purple-50); border-radius: var(--radius); padding: 12px 14px; margin: 8px 0; }
+  .sum-table-wrap .st-title { font-size: 12px; font-weight: 700; color: var(--purple-800); margin-bottom: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .sum-table-wrap table { font-size: 12px; }
+  .sum-table-wrap th { background: transparent; color: var(--purple-800); font-weight: 700; border-bottom-color: var(--purple-200); }
+  .sum-table-wrap td { color: var(--purple-600); border-bottom-color: var(--purple-200); }
+
+  /* Rule card */
+  .rule-card { border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 13px; margin-bottom: 8px; }
+  .rule-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .rule-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+  /* Divider */
+  hr { height: 0.5px; background: var(--border); border: none; margin: 14px 0; }
+
+  /* Scroll to top / mobile nav toggle */
+  .mobile-nav-btn { display: none; }
+  @media (max-width: 700px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: relative; padding: 0.75rem 0; }
+    .nav-item { padding: 7px 0.75rem; }
+    .main { padding: 1rem; }
+  }
+
+  /* Bohr SVG */
+  .bohr-wrap { background: var(--bg2); border-radius: var(--radius); padding: 12px; text-align: center; margin: 10px 0; }
+  .bohr-caption { font-size: 12px; color: var(--text2); margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <nav class="sidebar" aria-label="Study guide navigation">
+    <div class="sidebar-title">Study Guide</div>
+
+    <a class="nav-item active" onclick="show('em',this)">⚡ EM Radiation</a>
+    <a class="nav-item" onclick="show('wave',this)">🌊 Wave-Particle Duality</a>
+    <a class="nav-item" onclick="show('bohr',this)">⚛ Bohr Model</a>
+    <a class="nav-item" onclick="show('calc',this)">🔢 Calculations</a>
+    <div class="nav-divider"></div>
+    <a class="nav-item" onclick="show('scientists',this)">🔬 Scientists</a>
+    <a class="nav-item" onclick="show('econfig',this)">🔵 Electron Configs</a>
+    <div class="nav-divider"></div>
+    <a class="nav-item" onclick="show('ptable',this)">📊 Periodic Table</a>
+    <a class="nav-item" onclick="show('trends',this)">📈 Periodic Trends</a>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <h1>EM Radiation &amp; Atomic Structure</h1>
+      <p>Interactive study guide — select a topic from the left</p>
+    </div>
+
+    <!-- EM RADIATION -->
+    <div class="section active" id="sec-em">
+      <h2>⚡ Electromagnetic Radiation</h2>
+
+      <div class="card">
+        <h3>What is EM radiation?</h3>
+        <p>EM radiation is energy that travels as oscillating electric and magnetic fields, perpendicular to each other and to the direction of travel. It requires no medium — it propagates through a vacuum at the speed of light, <strong>c = 3.00 × 10⁸ m/s</strong>.</p>
+        <div class="callout callout-purple" style="margin-top:10px;">All EM radiation travels at the same speed in vacuum. What differs between types is wavelength (λ), frequency (ν), and energy (E).</div>
+        <h3>Key wave properties</h3>
+        <div class="three-col" style="margin-top:8px;">
+          <div class="mini-card"><div class="lbl">Wavelength (λ)</div><div class="val">Distance peak-to-peak · units: m, nm</div></div>
+          <div class="mini-card"><div class="lbl">Frequency (ν)</div><div class="val">Cycles per second · units: Hz (s⁻¹)</div></div>
+          <div class="mini-card"><div class="lbl">Amplitude</div><div class="val">Wave height · related to intensity (brightness)</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>The EM Spectrum — click a band</h3>
+        <div class="em-spectrum">
+          <div class="em-band" style="background:#4B1528;color:#F4C0D1;" onclick="showBand('gamma')">γ<span>Gamma</span></div>
+          <div class="em-band" style="background:#3C3489;color:#CECBF6;" onclick="showBand('xray')">X-ray<span>X-rays</span></div>
+          <div class="em-band" style="background:#185FA5;color:#B5D4F4;" onclick="showBand('uv')">UV<span>Ultraviolet</span></div>
+          <div class="em-band" style="background:#3B6D11;color:#C0DD97;" onclick="showBand('vis')">VIS<span>Visible</span></div>
+          <div class="em-band" style="background:#BA7517;color:#FAC775;" onclick="showBand('ir')">IR<span>Infrared</span></div>
+          <div class="em-band" style="background:#854F0B;color:#FAC775;" onclick="showBand('micro')">μW<span>Microwave</span></div>
+          <div class="em-band" style="background:#5F5E5A;color:#D3D1C7;" onclick="showBand('radio')">📻<span>Radio</span></div>
+        </div>
+        <div class="em-tooltip" id="em-tooltip">Click a band above to see its wavelength range, frequency, and uses.</div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:6px;">
+          <span>← Higher energy · higher frequency · shorter λ</span>
+          <span>Lower energy · lower frequency · longer λ →</span>
+        </div>
+
+        <h3 style="margin-top:1rem;">High-energy vs. low-energy photons</h3>
+        <div class="two-col">
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--coral-600);margin-bottom:6px;">🔴 High-energy (short λ, high ν)</p>
+            <ul><li>Gamma rays</li><li>X-rays</li><li>Ultraviolet (UV)</li></ul>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--teal-600);margin-bottom:6px;">🟢 Low-energy (long λ, low ν)</p>
+            <ul><li>Infrared (IR)</li><li>Microwaves</li><li>Radio waves</li></ul>
+          </div>
+        </div>
+        <div class="callout callout-amber" style="margin-top:10px;"><strong>Key relationship:</strong> E ∝ ν ∝ 1/λ — energy and frequency increase together; wavelength decreases as energy increases.</div>
+      </div>
+    </div>
+
+    <!-- WAVE-PARTICLE DUALITY -->
+    <div class="section" id="sec-wave">
+      <h2>🌊 Wave-Particle Duality</h2>
+      <div class="card">
+        <p>Light and matter exhibit both wave-like and particle-like properties depending on how they are measured. This is a fundamental feature of quantum mechanics.</p>
+
+        <h3>Evidence for wave nature</h3>
+        <div class="rule-card">
+          <div class="rule-name"><span class="badge badge-blue">Experiment</span> Double-Slit Experiment (Young, 1801)</div>
+          <div class="rule-desc">When light passes through two narrow slits, it creates an <em>interference pattern</em> — alternating bright and dark bands. Only waves can constructively and destructively interfere. This is impossible if light were purely particles.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name"><span class="badge badge-blue">Experiment</span> Diffraction</div>
+          <div class="rule-desc">Light bends around obstacles and spreads when passing through narrow openings — a hallmark of wave behavior. X-ray diffraction off crystal lattices (used in crystallography) further confirms this.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name"><span class="badge badge-blue">Experiment</span> Dispersion / Prism</div>
+          <div class="rule-desc">White light separates into a continuous rainbow spectrum through a prism because different wavelengths bend (refract) by different amounts — consistent with wave nature.</div>
+        </div>
+
+        <h3 style="margin-top:1.2rem;">Evidence for particle nature</h3>
+        <div class="rule-card">
+          <div class="rule-name"><span class="badge badge-coral">Experiment</span> Photoelectric Effect (Einstein, 1905)</div>
+          <div class="rule-desc">Shining light on a metal ejects electrons — but <em>only if frequency exceeds a threshold</em>. Increasing intensity does nothing below the threshold. This proves light comes in discrete packets called <strong>photons</strong>. Each photon carries energy E = hν. Einstein received the Nobel Prize for this explanation. This definitively showed light has particle character.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name"><span class="badge badge-coral">Experiment</span> Compton Scattering (1923)</div>
+          <div class="rule-desc">X-rays scattered by electrons shift wavelength exactly as expected if a photon collides with an electron and transfers momentum (like billiard balls). Photon momentum: p = h/λ.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name"><span class="badge badge-coral">Experiment</span> Blackbody Radiation (Planck, 1900)</div>
+          <div class="rule-desc">The emission spectrum of hot objects could only be explained by assuming energy is emitted in discrete chunks: E = nhν. This launched quantum theory — energy is <strong>quantized</strong>, not continuous.</div>
+        </div>
+
+        <div class="callout callout-purple" style="margin-top:12px;">de Broglie (1924) extended duality to <em>all matter</em>: λ = h/mv. Electrons were confirmed to diffract in the Davisson-Germer experiment (1927) — matter truly behaves as waves.</div>
+      </div>
+    </div>
+
+    <!-- BOHR MODEL -->
+    <div class="section" id="sec-bohr">
+      <h2>⚛ The Bohr Model</h2>
+      <div class="card">
+        <p>Niels Bohr (1913) proposed electrons orbit the nucleus only in specific circular paths with fixed energies, called <strong>energy levels</strong> (n = 1, 2, 3…). Electrons cannot exist between levels.</p>
+
+        <div class="bohr-wrap">
+          <svg width="240" height="230" viewBox="0 0 240 230" aria-label="Bohr model diagram showing electron orbits">
+            <title>Bohr Model of the Atom</title>
+            <circle cx="120" cy="115" r="16" fill="#3C3489"/>
+            <text x="120" y="120" text-anchor="middle" fill="#EEEDFE" font-size="11" font-family="sans-serif">+</text>
+            <circle cx="120" cy="115" r="40" fill="none" stroke="#7F77DD" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <circle cx="120" cy="115" r="65" fill="none" stroke="#AFA9EC" stroke-width="1.2" stroke-dasharray="5,3"/>
+            <circle cx="120" cy="115" r="90" fill="none" stroke="#CECBF6" stroke-width="1" stroke-dasharray="5,3"/>
+            <!-- electrons -->
+            <circle cx="120" cy="75" r="6" fill="#3C3489"/>
+            <circle cx="185" cy="115" r="6" fill="#534AB7"/>
+            <circle cx="120" cy="25" r="6" fill="#7F77DD"/>
+            <!-- labels -->
+            <text x="164" y="80" fill="#534AB7" font-size="11" font-family="sans-serif">n=1</text>
+            <text x="190" y="119" fill="#534AB7" font-size="11" font-family="sans-serif">n=2</text>
+            <text x="170" y="152" fill="#7F77DD" font-size="11" font-family="sans-serif">n=3</text>
+            <!-- emission arrow -->
+            <defs><marker id="arrowhead" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#E24B4A"/></marker></defs>
+            <line x1="120" y1="75" x2="120" y2="31" stroke="#E24B4A" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="128" y="55" fill="#E24B4A" font-size="10" font-family="sans-serif">photon out</text>
+          </svg>
+          <div class="bohr-caption">Electron drops from n=3 → n=1, emitting a photon of specific energy</div>
+        </div>
+
+        <h3>Excitation (Absorption)</h3>
+        <p>An electron absorbs a photon and jumps to a higher energy level (n<sub>low</sub> → n<sub>high</sub>). The photon's energy must <em>exactly</em> match the energy gap: <strong>E<sub>photon</sub> = E<sub>high</sub> − E<sub>low</sub></strong>. This produces absorption spectra — dark lines at specific wavelengths.</p>
+
+        <h3 style="margin-top:1rem;">Emission</h3>
+        <p>An electron falls from a higher to lower level (n<sub>high</sub> → n<sub>low</sub>), releasing a photon whose energy equals the gap. This produces the bright-line <strong>emission spectrum</strong>, unique to each element (like a fingerprint). Hydrogen's visible emission lines (to n=2) are the Balmer series.</p>
+
+        <div class="callout callout-amber" style="margin-top:10px;"><strong>Limitation:</strong> The Bohr model works beautifully for hydrogen (1 electron) but fails for multi-electron atoms. It treats electrons as simple planets in orbits — which Heisenberg and Schrödinger later showed is fundamentally wrong.</div>
+
+        <h3>Hydrogen energy equation</h3>
+        <code class="formula">Eₙ = −2.18 × 10⁻¹⁸ J × (1/n²)     [n = 1, 2, 3, …]</code>
+        <p style="font-size:13px;color:var(--text2);">Negative sign = energy relative to a free electron (n = ∞). Ground state (n=1) is most negative = most stable.</p>
+        <code class="formula">ΔE = E<sub>final</sub> − E<sub>initial</sub> = −2.18×10⁻¹⁸ J × (1/n<sub>f</sub>² − 1/n<sub>i</sub>²)</code>
+        <div class="callout callout-purple" style="margin-top:8px;">ΔE &lt; 0 → electron falls → photon <strong>emitted</strong>&nbsp;&nbsp;|&nbsp;&nbsp;ΔE &gt; 0 → electron rises → photon <strong>absorbed</strong></div>
+      </div>
+    </div>
+
+    <!-- CALCULATIONS -->
+    <div class="section" id="sec-calc">
+      <h2>🔢 EM Radiation Calculations</h2>
+      <div class="card">
+        <h3>Core equations</h3>
+        <code class="formula">c = λν &nbsp;&nbsp;&nbsp; (speed of light = wavelength × frequency)</code>
+        <code class="formula">E = hν &nbsp;&nbsp;&nbsp; (Planck's equation: energy per photon)</code>
+        <code class="formula">E = hc/λ &nbsp;&nbsp; (combining both: E in terms of λ)</code>
+        <code class="formula">λ = h/mv &nbsp;&nbsp; (de Broglie: wavelength of a particle)</code>
+
+        <h3>Constants</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Constant</th><th>Symbol</th><th>Value</th></tr>
+            <tr><td>Speed of light</td><td>c</td><td>3.00 × 10⁸ m/s</td></tr>
+            <tr><td>Planck's constant</td><td>h</td><td>6.626 × 10⁻³⁴ J·s</td></tr>
+            <tr><td>Rydberg constant</td><td>R</td><td>2.18 × 10⁻¹⁸ J</td></tr>
+          </table>
+        </div>
+
+        <h3>Strategy: λ → ν → E</h3>
+        <ol style="margin-top:6px;">
+          <li>Convert λ to meters (1 nm = 10⁻⁹ m)</li>
+          <li>ν = c/λ → frequency in Hz</li>
+          <li>E = hν → energy in Joules</li>
+        </ol>
+
+        <h3 style="margin-top:1rem;">Strategy: energy gap → λ of photon</h3>
+        <ol style="margin-top:6px;">
+          <li>ΔE = −2.18×10⁻¹⁸ × (1/n<sub>f</sub>² − 1/n<sub>i</sub>²)</li>
+          <li>λ = hc/|ΔE|</li>
+          <li>Convert to nm if needed (× 10⁹)</li>
+        </ol>
+
+        <h3 style="margin-top:1rem;">Interactive: wavelength ↔ frequency ↔ energy</h3>
+        <div class="calc-row">
+          <label>λ (nm):</label>
+          <input type="range" min="10" max="1000" value="500" id="wl-slider" oninput="updateCalc()">
+          <span class="val-out" id="wl-out">500 nm</span>
+        </div>
+        <div class="three-col" style="margin-top:8px;">
+          <div class="mini-card"><div class="lbl">Frequency (ν)</div><div class="val" id="c-freq">6.00 × 10¹⁴ Hz</div></div>
+          <div class="mini-card"><div class="lbl">Energy/photon</div><div class="val" id="c-energy">3.98 × 10⁻¹⁹ J</div></div>
+          <div class="mini-card"><div class="lbl">EM region</div><div class="val" id="c-region">Visible (green)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCIENTISTS -->
+    <div class="section" id="sec-scientists">
+      <h2>🔬 Major Contributors to the Atomic Model</h2>
+      <div class="card">
+        <div class="scientist-grid">
+          <div class="sci-card">
+            <span class="badge badge-purple">Niels Bohr · 1913</span>
+            <div class="sci-name">Quantized Energy Levels</div>
+            <div class="sci-text">Proposed electrons occupy fixed circular orbits with specific energies. Electrons jump between levels by absorbing or emitting photons of exactly the right energy. Successfully explained hydrogen's line spectrum. <em>Limitation: only works for 1-electron (hydrogen-like) atoms.</em></div>
+          </div>
+          <div class="sci-card">
+            <span class="badge badge-teal">Werner Heisenberg · 1927</span>
+            <div class="sci-name">Uncertainty Principle</div>
+            <div class="sci-text">It is <em>impossible</em> to simultaneously know both the exact position and exact momentum of an electron: Δx · Δp ≥ h/4π. Measuring one disturbs the other. This demolished Bohr's orbit picture — electrons don't have defined trajectories. We can only speak of probability regions.</div>
+          </div>
+          <div class="sci-card">
+            <span class="badge badge-coral">Louis de Broglie · 1924</span>
+            <div class="sci-name">Matter Waves</div>
+            <div class="sci-text">All particles with mass have an associated wavelength: <strong>λ = h/mv</strong>. Electrons diffract just like waves (confirmed by Davisson-Germer, 1927). This explains why energy levels are quantized: only specific wavelengths form stable standing waves around a nucleus.</div>
+          </div>
+          <div class="sci-card">
+            <span class="badge badge-amber">Erwin Schrödinger · 1926</span>
+            <div class="sci-name">Wave Equation / Orbitals</div>
+            <div class="sci-text">Applied wave mechanics to the electron. Solutions (ψ) are <strong>orbitals</strong> — 3D probability maps of where an electron is likely to be found. ψ² = probability density. This is the modern quantum mechanical model. Orbitals (s, p, d, f) have specific shapes and energies.</div>
+          </div>
+        </div>
+        <div class="callout callout-purple" style="margin-top:12px;"><strong>Progression:</strong> Bohr (orbits, 1913) → de Broglie (matter waves, 1924) → Heisenberg (uncertainty, 1927) → Schrödinger (wave equations → orbitals, 1926). Each step moved from "electrons as tiny planets" to "electrons as probability clouds."</div>
+      </div>
+    </div>
+
+    <!-- ELECTRON CONFIGURATIONS -->
+    <div class="section" id="sec-econfig">
+      <h2>🔵 Electron Configurations</h2>
+
+      <div class="card">
+        <h3>Energy levels, sublevels, and orbitals</h3>
+        <div class="callout callout-purple"><strong>Vocabulary:</strong> Energy level = shell (n = 1, 2, 3…) · Sublevel = subshell (s, p, d, f) · Orbital = region holding ≤2 electrons. Orbitals per sublevel: s=1, p=3, d=5, f=7.</div>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table>
+            <tr><th>Energy Level (n)</th><th>Sublevels present</th><th>Total orbitals</th><th>Max electrons</th></tr>
+            <tr><td>n = 1</td><td>1s</td><td>1</td><td>2</td></tr>
+            <tr><td>n = 2</td><td>2s, 2p</td><td>1 + 3 = 4</td><td>8</td></tr>
+            <tr><td>n = 3</td><td>3s, 3p, 3d</td><td>1 + 3 + 5 = 9</td><td>18</td></tr>
+            <tr><td>n = 4</td><td>4s, 4p, 4d, 4f</td><td>1 + 3 + 5 + 7 = 16</td><td>32</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>The Three Rules</h3>
+        <div class="rule-card">
+          <div class="rule-name">📐 Aufbau Principle ("building up")</div>
+          <div class="rule-desc">Fill orbitals from lowest energy upward. Order: 1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p → 5s → 4d → 5p → 6s → 4f → 5d → 6p…<br>Key note: <strong>4s fills before 3d</strong>, but when forming cations, 4s electrons are lost first.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name">⚖️ Hund's Rule ("bus seat rule")</div>
+          <div class="rule-desc">When filling degenerate orbitals (same energy, e.g. three 2p), place one electron in each before doubling up. All single electrons have parallel spins (same direction). This minimizes electron-electron repulsion.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name">🚫 Pauli Exclusion Principle</div>
+          <div class="rule-desc">No two electrons in an atom can have identical quantum numbers. In practice: each orbital holds at most <strong>2 electrons with opposite spins (↑↓)</strong>. A singly-occupied orbital = spin-up; when paired, second electron = spin-down.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Writing electron configurations</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px;"><strong>Long form (Fe, Z=26):</strong></p>
+        <div class="ec-demo">1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d⁶
+<span class="ec-comment">→ sum: 2+2+6+2+6+2+6 = 26 ✓</span></div>
+
+        <p style="font-size:13px;color:var(--text2);margin: 10px 0 6px;"><strong>Noble gas shorthand:</strong></p>
+        <div class="ec-demo">Fe: [Ar] 4s² 3d⁶
+<span class="ec-comment">Ar accounts for 1s²2s²2p⁶3s²3p⁶ = 18 electrons</span></div>
+
+        <p style="font-size:13px;color:var(--text2);margin: 10px 0 6px;"><strong>Orbital (box) notation — Hund's Rule example:</strong></p>
+        <div class="ec-demo">Carbon 2p²:   [↑] [↑] [ ]   ← correct (Hund's rule)
+               [↑↓] [ ] [ ] ← WRONG (violates Hund's rule!)</div>
+
+        <h3 style="margin-top:1rem;">Electron promotions (exceptions to Aufbau)</h3>
+        <div class="callout callout-amber">
+          <strong>Cr:</strong> [Ar] 4s¹ 3d⁵ (half-filled d — extra stable), NOT [Ar] 4s² 3d⁴<br>
+          <strong>Cu:</strong> [Ar] 4s¹ 3d¹⁰ (fully filled d — extra stable), NOT [Ar] 4s² 3d⁹<br>
+          Similar patterns in Mo, Ag, Au. Half-filled and fully filled sublevels have special stability.
+        </div>
+
+        <h3 style="margin-top:1rem;">Ion configurations</h3>
+        <div class="rule-card">
+          <div class="rule-name">Main group ions — remove/add from outermost sublevel</div>
+          <div class="rule-desc">
+            <div class="ion-row"><span class="ion-chip">Na: [Ne] 3s¹</span><span class="arrow-lbl">→ loses 3s →</span><span class="ion-chip">Na⁺: [Ne]</span></div>
+            <div class="ion-row"><span class="ion-chip">Cl: [Ne] 3s²3p⁵</span><span class="arrow-lbl">→ gains 1e⁻ →</span><span class="ion-chip">Cl⁻: [Ne] 3s²3p⁶ = [Ar]</span></div>
+          </div>
+        </div>
+        <div class="rule-card" style="margin-top:4px;">
+          <div class="rule-name">Transition metal ions — always remove 4s electrons FIRST</div>
+          <div class="rule-desc">
+            <div class="ion-row"><span class="ion-chip">Fe: [Ar] 4s²3d⁶</span></div>
+            <div class="ion-row"><span class="ion-chip">Fe²⁺: [Ar] 3d⁶</span><span class="arrow-lbl">(both 4s removed)</span></div>
+            <div class="ion-row"><span class="ion-chip">Fe³⁺: [Ar] 3d⁵</span><span class="arrow-lbl">(4s removed + one 3d)</span></div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:1rem;">Key vocabulary</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Term</th><th>Definition</th><th>Example (Fe)</th></tr>
+            <tr><td>Valence electrons</td><td>Outermost shell e⁻; for TM, include 4s + 3d</td><td>Fe: 8 (4s²+3d⁶)</td></tr>
+            <tr><td>Core electrons</td><td>All non-valence electrons</td><td>Fe: 18 (Ar core)</td></tr>
+            <tr><td>Unpaired electrons</td><td>Electrons in singly-occupied orbitals</td><td>Fe: 4 (in 3d)</td></tr>
+            <tr><td>Isoelectronic</td><td>Same number &amp; arrangement of electrons</td><td>Na⁺, Ne, F⁻, O²⁻, Mg²⁺ (all 10 e⁻)</td></tr>
+          </table>
+        </div>
+
+        <h3 style="margin-top:1rem;">Identifying errors in configurations</h3>
+        <div class="rule-card">
+          <div class="rule-name">Aufbau violation</div>
+          <div class="rule-desc">Wrong filling order (e.g. 3d before 4s) or skipping a sublevel. Check that lower energy sublevels are full before moving up.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name">Pauli violation</div>
+          <div class="rule-desc">More than 2 electrons in one orbital, e.g. "1s³" — impossible. Max 2 per orbital.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name">Hund's rule violation</div>
+          <div class="rule-desc">Pairing electrons before all orbitals in a sublevel have one, e.g. [↑↓][ ][ ] for 2p with 2 electrons instead of [↑][↑][ ].</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-name">Excited state</div>
+          <div class="rule-desc">An electron occupies a higher sublevel than it should in the ground state, e.g. carbon shown as 1s²2s¹2p²3s¹ — the 3s electron indicates an excited state atom.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERIODIC TABLE -->
+    <div class="section" id="sec-ptable">
+      <h2>📊 The Periodic Table — Background</h2>
+      <div class="card">
+        <h3>Mendeleev's contributions (1869)</h3>
+        <ul style="margin-top:6px;">
+          <li>Arranged elements by increasing <strong>atomic mass</strong> and noticed repeating patterns (Law of Periodicity).</li>
+          <li>Grouped elements with similar properties into columns.</li>
+          <li>Left <strong>gaps</strong> for undiscovered elements and accurately predicted their properties (e.g., eka-silicon = Germanium, eka-boron = Scandium).</li>
+          <li>Occasionally swapped elements when properties demanded (e.g., Te before I), later justified by atomic number (Moseley, 1913).</li>
+          <li>Modern table is organized by <strong>atomic number</strong> (protons), not mass.</li>
+        </ul>
+        <div class="callout callout-purple" style="margin-top:10px;">The table's structure mirrors electron configurations. Groups 1–2 = s-block, Groups 13–18 = p-block, Transition metals = d-block, Lanthanides/Actinides = f-block. Period = highest energy level; group = number of valence electrons (for main group).</div>
+      </div>
+    </div>
+
+    <!-- PERIODIC TRENDS -->
+    <div class="section" id="sec-trends">
+      <h2>📈 Periodic Trends</h2>
+
+      <div class="card">
+        <h3>Master framework for all trends</h3>
+        <div class="callout callout-purple">
+          <strong>Everything is explained by two factors:</strong><br><br>
+          1. <strong>Effective nuclear charge (Z<sub>eff</sub>)</strong> = Z − shielding. Going across a period, Z increases but shielding stays roughly constant → Z<sub>eff</sub> increases → electrons pulled in tighter → atoms smaller, electrons harder to remove/easier to attract.<br><br>
+          2. <strong>Number of filled energy levels</strong>. Going down a group adds a shell, increasing distance from nucleus and adding shielding from core electrons → outer electrons held more loosely.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Atomic Radius</h3>
+        <div class="trend-grid">
+          <div class="trend-box"><div class="t-title">Across a period (→)</div><p>↓ Decreases · Z<sub>eff</sub> increases (more protons, similar shielding) → stronger pull → smaller atoms</p></div>
+          <div class="trend-box"><div class="t-title">Down a group (↓)</div><p>↑ Increases · Each row adds a new shell → electrons farther from nucleus</p></div>
+        </div>
+        <h3>Ionic radii &amp; isoelectronic species</h3>
+        <ul style="margin-top:6px;">
+          <li><strong>Cations smaller</strong> than parent atom — losing electrons reduces repulsion, Z<sub>eff</sub> per electron increases.</li>
+          <li><strong>Anions larger</strong> than parent atom — gaining electrons increases repulsion, Z<sub>eff</sub> per electron decreases.</li>
+          <li><strong>Isoelectronic series:</strong> more protons (higher Z) with same electrons → smaller. E.g. O²⁻ &gt; F⁻ &gt; Ne &gt; Na⁺ &gt; Mg²⁺ &gt; Al³⁺ (all have 10 electrons).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Ionization Energy (IE₁)</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px;">Energy required to remove one electron from a gaseous neutral atom. Always positive (endothermic).</p>
+        <code class="formula">X(g) → X⁺(g) + e⁻ &nbsp;&nbsp; ΔH = IE₁ (&gt; 0)</code>
+        <div class="trend-grid" style="margin-top:10px;">
+          <div class="trend-box"><div class="t-title">Across a period (→)</div><p>↑ Generally increases · Z<sub>eff</sub> ↑ → harder to remove electrons</p></div>
+          <div class="trend-box"><div class="t-title">Down a group (↓)</div><p>↓ Decreases · More shielding + greater distance → easier to remove</p></div>
+        </div>
+        <h3 style="margin-top:1rem;">Successive ionization energies</h3>
+        <p style="font-size:13px;color:var(--text2);">IE₁ &lt; IE₂ &lt; IE₃ always. A <strong>dramatic jump</strong> between IE<sub>n</sub> and IE<sub>n+1</sub> signals removal of a core electron → reveals number of valence electrons.</p>
+        <div class="ec-demo">Na: IE₁=496, IE₂=4562 kJ/mol → giant jump after 1st → 1 valence e⁻ → Group 1
+Mg: IE₁=738, IE₂=1451, IE₃=7733 → jump after 2nd → 2 valence e⁻ → Group 2</div>
+        <h3 style="margin-top:1rem;">Discontinuities</h3>
+        <div class="callout callout-red">
+          <strong>Be &gt; B:</strong> Boron (IE₁ &lt; Be) removes a 2p electron — higher energy than Be's 2s. The 2p is both higher energy and shielded by 2s → easier to remove.<br><br>
+          <strong>N &gt; O:</strong> Oxygen (IE₁ &lt; N) has a paired electron in one 2p orbital — electron-electron repulsion in the pair makes it easier to remove. Nitrogen's three unpaired 2p electrons (Hund's rule) have no such pairing repulsion.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Electron Affinity (EA)</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px;">Energy change when a gaseous atom gains one electron. More negative EA = stronger attraction for an electron.</p>
+        <code class="formula">X(g) + e⁻ → X⁻(g) &nbsp;&nbsp; ΔH = EA (usually &lt; 0, exothermic)</code>
+        <div class="trend-grid" style="margin-top:10px;">
+          <div class="trend-box"><div class="t-title">Across a period (→)</div><p>More negative (greater affinity) · Z<sub>eff</sub> ↑ → stronger attraction for added electron</p></div>
+          <div class="trend-box"><div class="t-title">Down a group (↓)</div><p>Less negative · greater distance + shielding → weaker attraction</p></div>
+        </div>
+        <h3 style="margin-top:1rem;">Discontinuities</h3>
+        <div class="callout callout-red">
+          <strong>N has near-zero EA:</strong> N has half-filled 2p³ — adding an electron forces pairing (repulsion). The extra stability of the half-filled subshell makes N reluctant to accept electrons.<br><br>
+          <strong>Noble gases have essentially no EA:</strong> Full valence shells — an added electron must go to the next higher energy level. Extremely unfavorable.<br><br>
+          <strong>Be and Mg have low EA:</strong> Their s subshell is full — an added electron must enter a higher p orbital.
+        </div>
+        <h3 style="margin-top:1rem;">EA vs. IE</h3>
+        <p style="font-size:13px;color:var(--text2);">IE measures difficulty of <em>removing</em> an electron (always +). EA measures energy change when an electron is <em>added</em> (usually −). Both are most extreme (high IE, very negative EA) in the upper-right of the periodic table (excluding noble gases).</p>
+      </div>
+
+      <div class="card">
+        <h3>Electronegativity (EN)</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px;">Atom's ability to attract shared electrons in a covalent bond (Pauling scale; F = 4.0). Used to predict bond polarity and type (ionic vs. covalent).</p>
+        <div class="trend-grid">
+          <div class="trend-box"><div class="t-title">Across a period (→)</div><p>↑ Increases · Z<sub>eff</sub> ↑ → pulls bonding electrons closer</p></div>
+          <div class="trend-box"><div class="t-title">Down a group (↓)</div><p>↓ Decreases · greater distance + shielding → weaker attraction to shared electrons</p></div>
+        </div>
+        <div class="callout callout-purple" style="margin-top:10px;"><strong>Noble gases:</strong> Most noble gases don't have measured EN values because they don't normally form bonds or share electrons, so the concept doesn't apply. (Some heavier noble gases like Xe can form limited compounds.)</div>
+        <div class="mini-card" style="margin-top:8px;">
+          <div class="lbl">Highest EN → F (4.0) &gt; O (3.5) &gt; N, Cl (3.0)</div>
+          <div class="val" style="font-size:13px;margin-top:4px;">Lowest EN → Cs, Fr (~0.7)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Reactivity</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">How readily an element undergoes reactions — ease of losing or gaining electrons.</p>
+        <div class="two-col">
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--purple-800);margin-bottom:6px;">Most reactive metals</p>
+            <p style="font-size:13px;color:var(--text2);">Lower-left: Cs, Fr, Rb. Very low IE → easily lose valence electrons. Going down Group 1: more shielding, greater distance → even easier to lose the single valence e⁻.</p>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--coral-600);margin-bottom:6px;">Most reactive nonmetals</p>
+            <p style="font-size:13px;color:var(--text2);">Upper-right: F, Cl. High EN, very negative EA → eagerly gain electrons to complete valence shell. F is most reactive nonmetal (highest EN, smallest radius → new electron held very tightly).</p>
+          </div>
+        </div>
+        <div class="callout callout-purple" style="margin-top:10px;"><strong>Why F &gt; Cl reactivity</strong> despite Cl having a more negative EA: F's tiny radius places an added electron extremely close to the nucleus with very high Z<sub>eff</sub>. Reactivity considers full thermodynamics of real reactions, not EA alone.</div>
+      </div>
+
+      <div class="card">
+        <h3>All Trends — Quick Reference</h3>
+        <div class="sum-table-wrap">
+          <div class="st-title">Summary</div>
+          <div class="table-wrap">
+            <table>
+              <tr><th>Property</th><th>Across period (→)</th><th>Down group (↓)</th><th>Explained by</th></tr>
+              <tr><td>Atomic radius</td><td>Decreases</td><td>Increases</td><td>Z<sub>eff</sub> / shell count</td></tr>
+              <tr><td>Ionic radius (isoelec.)</td><td>More protons → smaller</td><td>More shells → larger</td><td>Z vs. electron count</td></tr>
+              <tr><td>Ionization energy</td><td>Increases*</td><td>Decreases</td><td>Z<sub>eff</sub> / shielding</td></tr>
+              <tr><td>Electron affinity</td><td>More negative*</td><td>Less negative</td><td>Z<sub>eff</sub> / shielding</td></tr>
+              <tr><td>Electronegativity</td><td>Increases</td><td>Decreases</td><td>Z<sub>eff</sub> / shielding</td></tr>
+              <tr><td>Metal reactivity</td><td>Decreases</td><td>Increases</td><td>Low IE → easy e⁻ loss</td></tr>
+              <tr><td>Nonmetal reactivity</td><td>Increases</td><td>Decreases</td><td>High EN/EA → easy e⁻ gain</td></tr>
+            </table>
+          </div>
+          <p style="font-size:11px;margin-top:6px;color:var(--purple-600);">* With notable exceptions at Be→B, N→O, and noble gases</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const bandData = {
+  gamma: { range: "< 0.01 nm", freq: "> 3×10¹⁹ Hz", uses: "Cancer therapy, sterilization, PET scans", note: "Highest energy — penetrates nearly everything; ionizing radiation" },
+  xray: { range: "0.01–10 nm", freq: "3×10¹⁶–3×10¹⁹ Hz", uses: "Medical imaging (bones), airport security, crystallography", note: "Very high energy — penetrates soft tissue; ionizing" },
+  uv: { range: "10–400 nm", freq: "7.5×10¹⁴–3×10¹⁶ Hz", uses: "Sterilization (UV-C), sunscreen (UV-B/A), fluorescence, Vitamin D", note: "High energy — can cause sunburn and DNA damage" },
+  vis: { range: "400–700 nm", freq: "4.3–7.5×10¹⁴ Hz", uses: "Human vision, photography, lasers, photosynthesis", note: "Violet (highest energy/shortest λ) to red (lowest energy/longest λ)" },
+  ir: { range: "700 nm–1 mm", freq: "3×10¹¹–4.3×10¹⁴ Hz", uses: "Heat lamps, night vision, remote controls, IR spectroscopy", note: "Low energy — we feel it as heat; non-ionizing" },
+  micro: { range: "1 mm–10 cm", freq: "3×10⁹–3×10¹¹ Hz", uses: "Microwave ovens, radar, Wi-Fi, Bluetooth, GPS", note: "Very low energy — non-ionizing; excites molecular rotations" },
+  radio: { range: "> 10 cm", freq: "< 3×10⁹ Hz", uses: "AM/FM radio, TV, cell phones, MRI machines", note: "Lowest energy — completely non-ionizing; MRI uses radio frequency pulses" }
+};
+
+function showBand(key) {
+  const b = bandData[key];
+  document.getElementById('em-tooltip').innerHTML =
+    `<strong>λ range:</strong> ${b.range} &nbsp;|&nbsp; <strong>Frequency:</strong> ${b.freq}<br>` +
+    `<strong>Uses:</strong> ${b.uses}<br><span style="color:var(--text)">${b.note}</span>`;
+}
+
+function show(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function sup(n) {
+  const m = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(c => m[c] || c).join('');
+}
+
+function getRegion(nm) {
+  if (nm < 10) return 'Gamma rays';
+  if (nm < 200) return 'X-ray / Far UV';
+  if (nm < 400) return 'Ultraviolet';
+  if (nm < 450) return 'Visible — violet';
+  if (nm < 495) return 'Visible — blue';
+  if (nm < 570) return 'Visible — green';
+  if (nm < 590) return 'Visible — yellow';
+  if (nm < 620) return 'Visible — orange';
+  if (nm < 700) return 'Visible — red';
+  if (nm < 1000) return 'Near-infrared';
+  return 'Infrared / Microwave';
+}
+
+function updateCalc() {
+  const nm = parseInt(document.getElementById('wl-slider').value);
+  document.getElementById('wl-out').textContent = nm + ' nm';
+  const lam = nm * 1e-9, c = 3e8, h = 6.626e-34;
+  const freq = c / lam, energy = h * freq;
+  const fe = Math.floor(Math.log10(freq)), fm = (freq / 10**fe).toFixed(2);
+  const ee = Math.floor(Math.log10(energy)), em = (energy / 10**ee).toFixed(2);
+  document.getElementById('c-freq').textContent = fm + ' × 10' + sup(fe) + ' Hz';
+  document.getElementById('c-energy').textContent = em + ' × 10' + sup(ee) + ' J';
+  document.getElementById('c-region').textContent = getRegion(nm);
+}
+
+document.getElementById('wl-slider').addEventListener('input', updateCalc);
+updateCalc();
+</script>
+</body>
+</html>
